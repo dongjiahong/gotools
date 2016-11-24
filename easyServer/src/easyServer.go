@@ -7,12 +7,13 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"reflect"
 )
 
 // EasyServer ..
 type EasyServer struct {
-	Config EasyConf `json:"easy_conf"`
-	EasyLogger
+	Config     EasyConf `json:"easy_conf"`
+	EasyLogger `json:"-"`
 }
 
 // EasyConf ..
@@ -50,7 +51,7 @@ func (s *EasyServer) InitLogger(logFileName string, logPreffix string) error {
 	if err != nil {
 		return errors.New("create logfile err: " + err.Error())
 	}
-	defer file.Close()
+	//defer file.Close()
 	s.l = log.New(file, logPreffix, log.Llongfile)
 	return nil
 }
@@ -60,11 +61,12 @@ func (s *EasyServer) ReadConfigFromFile(configFile string) error {
 	if len(configFile) == 0 {
 		panic("can't find config file")
 	}
-	conf, err := ioutil.ReadFile(configFile)
+	confByte, err := ioutil.ReadFile(configFile)
 	if err != nil {
 		return errors.New("read config err: " + err.Error())
 	}
-	err = json.Unmarshal(conf, &s.Config)
+	ttp("len(confByte): ", len(confByte), " confByte type: ", reflect.TypeOf(confByte).Name())
+	err = json.Unmarshal(confByte, &s)
 	if err != nil {
 		return errors.New("unmarshal config err: " + err.Error())
 	}
@@ -77,9 +79,14 @@ func (s *EasyServer) NewServer(configFile string, logFileName string, logPreffix
 	if err != nil {
 		return errors.New("ReadConfigFromFile err: " + err.Error())
 	}
+	ttp("LogPath: ", s.Config.LogPath)
 	err = s.InitLogger(logFileName, logPreffix)
 	if err != nil {
 		return errors.New("InitLogger err: " + err.Error())
 	}
 	return nil
+}
+
+func ttp(args ...interface{}) {
+	fmt.Println("TTTTT ", args)
 }
