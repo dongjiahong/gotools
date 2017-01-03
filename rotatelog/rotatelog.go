@@ -47,6 +47,9 @@ func NewRotateLog(path string, prefix string, flag int) (*RotateLog, error) {
 
 // Println RotateLog println info
 func (r *RotateLog) Println(args ...interface{}) {
+	r.rotateMutex.RLock()
+	defer r.rotateMutex.RUnlock()
+
 	r.logger.Println(args)
 }
 
