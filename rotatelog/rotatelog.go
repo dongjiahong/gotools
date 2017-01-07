@@ -1,5 +1,5 @@
-//package rotatelog
-package main
+package rotatelog
+//package main
 
 import (
 	"errors"
@@ -96,7 +96,7 @@ func (r *RotateLog) RotateWithTime() {
 	}()
 }
 
-func main() {
+func xmain() {
 	rl, err := NewRotateLog("logs/rotatelog", "[NewRotate]", log.LUTC|log.LstdFlags)
 	if err != nil {
 		fmt.Println("get new rotate log err: ", err)
