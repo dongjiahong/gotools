@@ -1,4 +1,4 @@
-package rotatelog
+package gotools
 //package main
 
 import (
