@@ -51,7 +51,7 @@ func (r *RotateLog) Println(args ...interface{}) {
 	r.rotateMutex.Lock()
 	defer r.rotateMutex.Unlock()
 
-	r.logger.Println(args)
+	r.logger.Println(args...)
 }
 
 func (r *RotateLog) SetRotateTime(t time.Duration) {
