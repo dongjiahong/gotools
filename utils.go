@@ -2,7 +2,6 @@ package gotools
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"os"
 )
 
